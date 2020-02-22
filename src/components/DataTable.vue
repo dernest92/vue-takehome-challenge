@@ -1,13 +1,10 @@
 <template>
   <div>
-    <h2 class="mb-3">
-      Data Table Goes Here
-    </h2>
     <v-data-table
       :headers="headers"
       :items="repoData"
       :items-per-page="10"
-      class="elevation-1"
+      class="elevation-1 mt-6"
       :loading="loading"
       loading-text="Loading... "
     >
@@ -24,15 +21,13 @@
       </template>
 
       <template v-slot:item.lastUpdated="{ item }">
-        <v-chip :color="getColor(item.lastUpdated)">
+        <v-chip :color="getColor(item.lastUpdated)" dark>
           {{ fornmatDate(item.lastUpdated) }}
         </v-chip>
       </template>
 
       <template v-slot:item.hash="{ item }">
-        <v-btn :href="item.commitLink" target="_blank" text rounded outlined>
-          <span>{{ item.hash }}</span>
-        </v-btn>
+        <a :href="item.commitLink" target="_blank">{{ item.hash }}</a>
       </template>
     </v-data-table>
     <v-btn color="primary" dark class="mt-3">Add Repo</v-btn>
@@ -51,25 +46,17 @@ export default {
         { text: "Commit", value: "hash" },
         { text: "Author Name", value: "authorName" },
         { text: "Author Email", value: "authorEmail" }
-      ],
-      repoData: [],
-      repoList: [
-        { user: "vuejs", repo: "vue" },
-        { user: "facebook", repo: "react" },
-        { user: "sveltejs", repo: "svelte" },
-        { user: "expressjs", repo: "express" },
-        { user: "tensorflow", repo: "tensorflow" }
       ]
     };
   },
   async created() {
-    const allData = await Promise.all(
-      this.repoList.map(async r => {
-        return this.fetchRepoData(r);
-      })
-    );
-    this.repoData = [...this.repoData, ...allData];
+    await this.$store.dispatch("fetchDefaultRepos");
     this.loading = false;
+  },
+  computed: {
+    repoData() {
+      return this.$store.state.repoData;
+    }
   },
   methods: {
     fornmatDate(dateStr) {
@@ -79,41 +66,9 @@ export default {
       const ts = parseInt(moment(dateStr).format("x"));
       const now = parseInt(moment().format("x"));
       const diff = (now - ts) / (1000 * 60 * 60 * 24);
-      const hue = 120 / (1 + Math.sqrt(diff) / 5);
+      const hue = 120 / (1 + diff / 100);
 
-      return `hsl(${hue}, 75%, 75%)`;
-    },
-    async fetchRepoData(searchRepo) {
-      const apiUrl = "https://api.github.com";
-
-      const repoRes = await fetch(
-        `${apiUrl}/repos/${searchRepo.user}/${searchRepo.repo}`
-      );
-      const repo = await repoRes.json();
-
-      const commitsRes = await fetch(
-        `${apiUrl}/repos/${searchRepo.user}/${searchRepo.repo}/commits`
-      );
-
-      const commits = await commitsRes.json();
-
-      const {
-        sha,
-        html_url,
-        commit: {
-          author: { name, email, date }
-        }
-      } = commits[0];
-
-      return {
-        repoUserName: searchRepo.user,
-        repoName: repo.name,
-        lastUpdated: date,
-        authorName: name,
-        hash: sha,
-        authorEmail: email,
-        commitLink: html_url
-      };
+      return `hsl(${hue}, 80%, 40%)`;
     }
   }
 };
