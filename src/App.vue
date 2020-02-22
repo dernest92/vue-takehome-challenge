@@ -10,7 +10,7 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        href="https://github.com/dernest92/vue-takehome-challenge"
         target="_blank"
         text
       >
@@ -35,10 +35,6 @@ export default {
 
   components: {
     DataTable
-  },
-
-  data: () => ({
-    //
-  })
+  }
 };
 </script>
