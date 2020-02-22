@@ -26,3 +26,6 @@ npm run build
 - - Modal has a search bar and "search" button
 - - After clicking search, a list of repos is displayed
 - - Click the "Add" button on a repo to add it to the table
+- Add links in table to commit (done)
+- Add links in table to repo (done)
+- Add error handling
