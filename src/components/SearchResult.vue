@@ -13,8 +13,9 @@
       </v-list-item-content>
 
       <v-list-item-action>
-        <v-btn icon>
-          <v-icon color="grey lighten-1">mdi-plus</v-icon>
+        <v-btn icon @click="toggleSelect">
+          <v-icon color="red lighten-1" v-if="isSelected">mdi-minus</v-icon>
+          <v-icon color="green lighten-1" v-else>mdi-plus</v-icon>
         </v-btn>
       </v-list-item-action>
     </v-list-item>
@@ -25,6 +26,20 @@
 export default {
   props: {
     item: Object
+  },
+  computed: {
+    isSelected() {
+      return this.$store.state.repoList.includes(this.item.full_name);
+    }
+  },
+  methods: {
+    toggleSelect() {
+      if (this.isSelected) {
+        this.$store.dispatch("removeRepo", this.item.full_name);
+      } else {
+        this.$store.dispatch("addRepo", this.item.full_name);
+      }
+    }
   }
 };
 </script>

@@ -1,7 +1,7 @@
-export default async function fetchRepoData(user, repo) {
+export default async function fetchRepoData(repoFullName) {
   const url = "https://api.github.com";
 
-  const commitsRes = await fetch(`${url}/repos/${user}/${repo}/commits`);
+  const commitsRes = await fetch(`${url}/repos/${repoFullName}/commits`);
 
   const commitsData = await commitsRes.json();
 
@@ -12,10 +12,10 @@ export default async function fetchRepoData(user, repo) {
       author: { name, email, date }
     }
   } = commitsData[0];
+  console.log(commitsData);
 
   return {
-    repoUserName: user,
-    repoName: repo,
+    repoFullName,
     lastUpdated: date,
     authorName: name,
     hash: sha,

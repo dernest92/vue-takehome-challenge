@@ -8,16 +8,10 @@
       :loading="loading"
       loading-text="Loading... "
     >
-      <template v-slot:item.repoName="{ item }">
-        <v-btn
-          :href="`https://github.com/${item.repoUserName}/${item.repoName}`"
-          rounded
-          target="_blank"
-          outlined
-          text
-        >
-          <span>{{ item.repoName }}</span>
-        </v-btn>
+      <template v-slot:item.repoFullName="{ item }">
+        <a :href="`https://github.com/${item.repoFullName}`" target="_blank">
+          {{ item.repoFullName }}
+        </a>
       </template>
 
       <template v-slot:item.lastUpdated="{ item }">
@@ -40,7 +34,7 @@ export default {
     return {
       loading: true,
       headers: [
-        { text: "Repo Name", value: "repoName" },
+        { text: "Repo Name", value: "repoFullName" },
         { text: "Last Updated", value: "lastUpdated" },
         { text: "Commit", value: "hash" },
         { text: "Author Name", value: "authorName" },

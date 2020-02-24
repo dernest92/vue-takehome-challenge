@@ -10,23 +10,31 @@ export default new Vuex.Store({
     queryString: "",
     searchPage: 1,
     repoList: [
-      { user: "vuejs", repo: "vue" },
-      { user: "facebook", repo: "react" },
-      //   { user: "sveltejs", repo: "svelte" },
-      { user: "expressjs", repo: "express" },
-      //   { user: "tensorflow", repo: "tensorflow" }
-      { user: "bradtraversy", repo: "mysubscribers" }
+      "vuejs/vue",
+      "facebook/react",
+      "sveltejs/svelte",
+      "expressjs/express",
+      "tensorflow/tensorflow",
+      "bradtraversy/mysubscribers"
     ],
     repoData: [],
     searchResults: []
   },
   getters: {},
   actions: {
+    removeRepo({ state, commit }, repoName) {
+      const repoList = state.repoList.filter(r => r !== repoName);
+      commit("SET_REPO_LIST", repoList);
+    },
+    addRepo({ state, commit }, repoName) {
+      const repoList = [...state.repoList, repoName];
+      commit("SET_REPO_LIST", repoList);
+    },
     async fetchDefaultRepos({ state, commit }) {
       const { repoList } = state;
       const data = await Promise.all(
         repoList.map(async r => {
-          return fetchRepoData(r.user, r.repo);
+          return fetchRepoData(r);
         })
       );
       commit("SET_REPO_DATA", data);
@@ -49,7 +57,6 @@ export default new Vuex.Store({
         const avatar = itm.owner.avatar_url;
         return { html_url, description, full_name, stargazers_count, avatar };
       });
-      console.log(searchData);
       commit("SET_SEARCH_RESULTS", trimmedData);
       commit("SET_SEARCH_COUNT", searchData.total_count);
       commit("SET_QUERY_STRING", queryString);
@@ -70,6 +77,9 @@ export default new Vuex.Store({
     },
     SET_QUERY_STRING(state, str) {
       state.queryString = str;
+    },
+    SET_REPO_LIST(state, list) {
+      state.repoList = list;
     }
   }
 });
