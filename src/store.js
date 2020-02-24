@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     searchCount: 0,
     queryString: "",
+    loadingResults: false,
     searchPage: 1,
     repoList: [
       "vuejs/vue",
@@ -26,11 +27,13 @@ export default new Vuex.Store({
       const repoList = state.repoList.filter(r => r !== repoName);
       commit("SET_REPO_LIST", repoList);
     },
+
     addRepo({ state, commit }, repoName) {
       const repoList = [...state.repoList, repoName];
       commit("SET_REPO_LIST", repoList);
     },
-    async fetchDefaultRepos({ state, commit }) {
+
+    async fetchRepos({ state, commit }) {
       const { repoList } = state;
       const data = await Promise.all(
         repoList.map(async r => {
@@ -39,16 +42,15 @@ export default new Vuex.Store({
       );
       commit("SET_REPO_DATA", data);
     },
-    toggleSearchModal({ commit, state }) {
-      commit("SET_SEARCH_MODAL", !state.showSearchModal);
-    },
+
     async fetchSearchResults({ commit, state }, { searchStr, page }) {
-      const queryString = searchStr
-        ? searchStr.split(" ").join("+")
-        : state.queryString;
+      const queryString = searchStr ? searchStr : state.queryString;
+      const urlString = queryString.split(" ").join("+");
+
+      commit("SET_LOADING", true);
 
       const searchRes = await fetch(
-        `https://api.github.com/search/repositories?q=${queryString}&page=${page}&per_page=25`
+        `https://api.github.com/search/repositories?q=${urlString}&page=${page}&per_page=25`
       );
 
       const searchData = await searchRes.json();
@@ -60,6 +62,7 @@ export default new Vuex.Store({
       commit("SET_SEARCH_RESULTS", trimmedData);
       commit("SET_SEARCH_COUNT", searchData.total_count);
       commit("SET_QUERY_STRING", queryString);
+      commit("SET_LOADING", false);
     }
   },
   mutations: {
@@ -80,6 +83,9 @@ export default new Vuex.Store({
     },
     SET_REPO_LIST(state, list) {
       state.repoList = list;
+    },
+    SET_LOADING(state, val) {
+      state.loadingResults = val;
     }
   }
 });

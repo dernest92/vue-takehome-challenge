@@ -43,7 +43,7 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("fetchDefaultRepos");
+    await this.$store.dispatch("fetchRepos");
     this.loading = false;
   },
   computed: {

@@ -1,8 +1,10 @@
 <template>
   <v-container>
-    <v-card class="mt-3">
+    <v-card class="mt-3" :loading="loading">
       <v-list three-line>
-        <v-card-title>{{ count }} results</v-card-title>
+        <v-card-title
+          >{{ count }} results for "{{ searchString }}"</v-card-title
+        >
         <SearchResult v-for="item in items" :key="item.title" :item="item" />
       </v-list>
     </v-card>
@@ -35,11 +37,17 @@ export default {
     items() {
       return this.$store.state.searchResults;
     },
+    searchString() {
+      return this.$store.state.queryString;
+    },
     count() {
       return this.$store.state.searchCount;
     },
     numPages() {
       return Math.ceil(this.count / 25);
+    },
+    loading() {
+      return this.$store.state.loadingResults;
     }
   }
 };

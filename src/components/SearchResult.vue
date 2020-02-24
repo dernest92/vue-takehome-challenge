@@ -7,7 +7,9 @@
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title
-          ><a :href="item.html_url">{{ item.full_name }}</a></v-list-item-title
+          ><a :href="item.html_url" target="_blank">{{
+            item.full_name
+          }}</a></v-list-item-title
         >
         <v-list-item-subtitle v-text="item.description"></v-list-item-subtitle>
       </v-list-item-content>

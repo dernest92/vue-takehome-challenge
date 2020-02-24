@@ -37,7 +37,8 @@ export default {
       if (this.$route.path !== "/search") {
         this.$router.push("/search");
       }
-      this.$store.dispatch("fetchSearchResults", { searchStr, page: 1 });
+      await this.$store.dispatch("fetchSearchResults", { searchStr, page: 1 });
+      this.searchStr = "";
     }
   }
 };
