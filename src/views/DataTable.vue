@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <v-data-table
       :headers="headers"
       :items="repoData"
@@ -30,8 +30,7 @@
         <a :href="item.commitLink" target="_blank">{{ item.hash }}</a>
       </template>
     </v-data-table>
-    <v-btn color="primary" dark class="mt-3">Add Repo</v-btn>
-  </div>
+  </v-container>
 </template>
 
 <script>
