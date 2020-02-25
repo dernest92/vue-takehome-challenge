@@ -5,12 +5,17 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lambda-serve": "netlify-lambda serve functions",
+    "lambda-build": "netlify-lambda build functions",
+    "lambda-dev": "env-cmd -f ./dev.env netlify-lambda serve functions"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "material-design-icons-iconfont": "^5.0.1",
     "moment": "^2.24.0",
+    "netlify-lambda": "^1.6.3",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
     "vuetify": "^2.2.11",
@@ -21,6 +26,7 @@
     "@vue/cli-plugin-eslint": "^4.2.0",
     "@vue/cli-service": "^4.2.0",
     "babel-eslint": "^10.0.3",
+    "env-cmd": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.1.2",
     "sass": "^1.19.0",

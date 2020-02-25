@@ -12,7 +12,6 @@ export default async function fetchRepoData(repoFullName) {
       author: { name, email, date }
     }
   } = commitsData[0];
-  console.log(commitsData);
 
   return {
     repoFullName,

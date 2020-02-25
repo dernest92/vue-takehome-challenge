@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import fetchRepoData from "./services/fetchRepoData";
+import fetchSearchData from "./services/fetchSearchData";
 
 Vue.use(Vuex);
 
@@ -49,18 +50,13 @@ export default new Vuex.Store({
 
       commit("SET_LOADING", true);
 
-      const searchRes = await fetch(
-        `https://api.github.com/search/repositories?q=${urlString}&page=${page}&per_page=25`
+      const { trimmedData, total_count } = await fetchSearchData(
+        urlString,
+        page
       );
 
-      const searchData = await searchRes.json();
-      const trimmedData = searchData.items.map(itm => {
-        const { html_url, description, full_name, stargazers_count } = itm;
-        const avatar = itm.owner.avatar_url;
-        return { html_url, description, full_name, stargazers_count, avatar };
-      });
       commit("SET_SEARCH_RESULTS", trimmedData);
-      commit("SET_SEARCH_COUNT", searchData.total_count);
+      commit("SET_SEARCH_COUNT", total_count);
       commit("SET_QUERY_STRING", queryString);
       commit("SET_LOADING", false);
     }
