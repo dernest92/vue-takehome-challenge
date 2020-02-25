@@ -1,6 +1,9 @@
 export default async function fetchSearchData(urlString, page) {
+  const url = process.env.VUE_APP_API_URL;
+  const perPage = 25;
+
   const searchRes = await fetch(
-    `https://api.github.com/search/repositories?q=${urlString}&page=${page}&per_page=25`
+    `${url}/getSearchData?q=${urlString}&page=${page}&per_page=${perPage}`
   );
 
   const searchData = await searchRes.json();

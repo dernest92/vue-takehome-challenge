@@ -35,6 +35,10 @@ export default {
 
   components: {
     AppBar
+  },
+  async created() {
+    const url = process.env.VUE_APP_API_URL;
+    console.log(url);
   }
 };
 // repository_search_url: "https://api.github.com/search/repositories?q={query}{&page,per_page,sort,order}

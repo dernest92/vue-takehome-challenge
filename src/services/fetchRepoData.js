@@ -1,7 +1,6 @@
 export default async function fetchRepoData(repoFullName) {
-  const url = "https://api.github.com";
-
-  const commitsRes = await fetch(`${url}/repos/${repoFullName}/commits`);
+  const url = process.env.VUE_APP_API_URL;
+  const commitsRes = await fetch(`${url}/getCommit?repo=${repoFullName}`);
 
   const commitsData = await commitsRes.json();
 
