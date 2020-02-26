@@ -23,6 +23,12 @@
       <template v-slot:item.hash="{ item }">
         <a :href="item.commitLink" target="_blank">{{ item.hash }}</a>
       </template>
+
+      <template v-slot:item.actions="{ item }">
+        <v-icon small @click="removeItem(item.repoFullName)">
+          delete
+        </v-icon>
+      </template>
     </v-data-table>
   </v-container>
 </template>
@@ -38,7 +44,8 @@ export default {
         { text: "Last Updated", value: "lastUpdated" },
         { text: "Commit", value: "hash" },
         { text: "Author Name", value: "authorName" },
-        { text: "Author Email", value: "authorEmail" }
+        { text: "Author Email", value: "authorEmail" },
+        { value: "actions" }
       ]
     };
   },
@@ -62,6 +69,9 @@ export default {
       const hue = 120 / (1 + diff / 100);
 
       return `hsl(${hue}, 80%, 40%)`;
+    },
+    removeItem(itm) {
+      this.$store.dispatch("removeRepo", itm);
     }
   }
 };

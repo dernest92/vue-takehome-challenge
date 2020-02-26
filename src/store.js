@@ -26,7 +26,9 @@ export default new Vuex.Store({
   actions: {
     removeRepo({ state, commit }, repoName) {
       const repoList = state.repoList.filter(r => r !== repoName);
+      const repoData = state.repoData.filter(r => r.repoFullName !== repoName);
       commit("SET_REPO_LIST", repoList);
+      commit("SET_REPO_DATA", repoData);
     },
 
     addRepo({ state, commit }, repoName) {
@@ -49,6 +51,7 @@ export default new Vuex.Store({
       const urlString = queryString.split(" ").join("+");
 
       commit("SET_LOADING", true);
+      commit("SET_QUERY_STRING", queryString);
 
       const { trimmedData, total_count } = await fetchSearchData(
         urlString,
@@ -57,7 +60,6 @@ export default new Vuex.Store({
 
       commit("SET_SEARCH_RESULTS", trimmedData);
       commit("SET_SEARCH_COUNT", total_count);
-      commit("SET_QUERY_STRING", queryString);
       commit("SET_LOADING", false);
     }
   },

@@ -1,9 +1,11 @@
 <template>
   <v-container>
-    <v-card class="mt-3" :loading="loading">
+    <v-card class="mt-3" :loading="loading" :disabled="loading">
       <v-list three-line>
         <v-card-title
-          >{{ count }} results for "{{ searchString }}"</v-card-title
+          >{{ loading ? "Loading" : count }} results for "{{
+            searchString
+          }}"</v-card-title
         >
         <SearchResult v-for="item in items" :key="item.title" :item="item" />
       </v-list>

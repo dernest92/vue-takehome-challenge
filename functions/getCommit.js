@@ -5,7 +5,6 @@ exports.handler = async function(event, context, callback) {
 
   const { CLIENT_ID, CLIENT_SECRET, ACCESS_TOKEN } = process.env;
   const { repo } = event.queryStringParameters;
-  console.log(ACCESS_TOKEN);
 
   const send = body => {
     callback(null, {
