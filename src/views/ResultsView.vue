@@ -1,21 +1,26 @@
 <template>
   <v-container>
-    <v-card class="mt-3" :loading="loading" :disabled="loading">
-      <v-list three-line>
-        <v-card-title
-          >{{ loading ? "Loading" : count }} results for "{{
-            searchString
-          }}"</v-card-title
-        >
-        <SearchResult v-for="item in items" :key="item.title" :item="item" />
-      </v-list>
-    </v-card>
-    <v-pagination
-      class="mt-3"
-      v-model="page"
-      :length="numPages"
-      :total-visible="7"
-    ></v-pagination>
+    <v-btn to="/" color="primary"
+      ><v-icon left>mdi-arrow-left</v-icon>Back</v-btn
+    >
+    <div v-if="searchString">
+      <v-card class="mt-3" :loading="loading" :disabled="loading">
+        <v-list three-line>
+          <v-card-title
+            >{{ loading ? "Loading" : formatNumber(count) }} results for "{{
+              searchString
+            }}"</v-card-title
+          >
+          <SearchResult v-for="item in items" :key="item.title" :item="item" />
+        </v-list>
+      </v-card>
+      <v-pagination
+        class="my-4"
+        v-model="page"
+        :length="numPages"
+        :total-visible="7"
+      ></v-pagination>
+    </div>
   </v-container>
 </template>
 
@@ -35,6 +40,11 @@ export default {
   components: {
     SearchResult
   },
+  methods: {
+    formatNumber(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+  },
   computed: {
     items() {
       return this.$store.state.searchResults;
@@ -46,7 +56,7 @@ export default {
       return this.$store.state.searchCount;
     },
     numPages() {
-      return Math.ceil(this.count / 25);
+      return Math.min(Math.ceil(this.count / 10), 100); // returns a max of 100 pages;
     },
     loading() {
       return this.$store.state.loadingResults;

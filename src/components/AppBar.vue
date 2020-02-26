@@ -2,24 +2,33 @@
   <v-app-bar
     :clipped-left="$vuetify.breakpoint.lgAndUp"
     app
-    color="blue darken-3"
+    color="primary"
     dark
   >
-    <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-      <v-btn icon to="/">
-        <v-icon>home</v-icon>
-      </v-btn>
+    <v-toolbar-title class="ml-0 mr-4">
+      <router-link to="/" class="logo-img">
+        <v-img src="../assets/ccc-logo-white.png" class="logo-img" />
+      </router-link>
     </v-toolbar-title>
+    <v-spacer />
     <v-text-field
       flat
+      dense
       solo-inverted
       hide-details
+      rounded
       prepend-inner-icon="search"
-      label="Search"
+      label="Search GitHub"
       v-model="searchStr"
       @keyup.enter.native="search"
-    ></v-text-field>
-    <v-spacer></v-spacer>
+    />
+    <v-spacer />
+    <v-btn
+      href="https://github.com/dernest92/vue-takehome-challenge"
+      target="_blank"
+      icon
+      ><v-icon>mdi-github-circle</v-icon></v-btn
+    >
   </v-app-bar>
 </template>
 
@@ -42,3 +51,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.logo-img {
+  cursor: pointer;
+  width: 100px;
+}
+</style>

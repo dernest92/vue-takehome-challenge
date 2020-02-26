@@ -1,6 +1,6 @@
 export default async function fetchSearchData(urlString, page) {
   const url = process.env.VUE_APP_API_URL;
-  const perPage = 25;
+  const perPage = 10;
 
   const searchRes = await fetch(
     `${url}/getSearchData?q=${urlString}&page=${page}&per_page=${perPage}`

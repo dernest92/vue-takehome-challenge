@@ -21,11 +21,12 @@ npm run build
 ## Improvements
 
 - Write more in readme
-- Create "add repo" functionality
-- - Click "add repo" to open modal
-- - Modal has a search bar and "search" button
-- - After clicking search, a list of repos is displayed
-- - Click the "Add" button on a repo to add it to the table
-- Add links in table to commit (done)
-- Add links in table to repo (done)
 - Add error handling
+- Write unit tests
+- add tool tip for add/remove button on search page
+- name views better (and everything else)
+- make a diagram of the app
+- put readme page in the app
+- talk about OAuth, GitHub auth issues
+- show examples of scratch ui components in vue, (bistrobo front end, drawing app, react take home test)
+- clean up how api calls are made. Make better abstractions, reusable code.

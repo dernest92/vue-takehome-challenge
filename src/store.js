@@ -22,7 +22,6 @@ export default new Vuex.Store({
     repoData: [],
     searchResults: []
   },
-  getters: {},
   actions: {
     removeRepo({ state, commit }, repoName) {
       const repoList = state.repoList.filter(r => r !== repoName);

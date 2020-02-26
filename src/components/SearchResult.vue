@@ -15,10 +15,15 @@
       </v-list-item-content>
 
       <v-list-item-action>
-        <v-btn icon @click="toggleSelect">
-          <v-icon color="red lighten-1" v-if="isSelected">mdi-minus</v-icon>
-          <v-icon color="green lighten-1" v-else>mdi-plus</v-icon>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" icon @click="toggleSelect">
+              <v-icon color="error" v-if="isSelected">mdi-minus</v-icon>
+              <v-icon color="success" v-else>mdi-plus</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ isSelected ? "Remove Repo" : "Add Repo" }}</span>
+        </v-tooltip>
       </v-list-item-action>
     </v-list-item>
   </div>

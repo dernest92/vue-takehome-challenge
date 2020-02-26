@@ -16,7 +16,7 @@
 
       <template v-slot:item.lastUpdated="{ item }">
         <v-chip :color="getColor(item.lastUpdated)" dark>
-          {{ fornmatDate(item.lastUpdated) }}
+          {{ formatDate(item.lastUpdated) }}
         </v-chip>
       </template>
 
@@ -25,9 +25,14 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <v-icon small @click="removeItem(item.repoFullName)">
-          delete
-        </v-icon>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on" small @click="removeItem(item.repoFullName)">
+              delete
+            </v-icon>
+          </template>
+          <span>Remove Repo</span>
+        </v-tooltip>
       </template>
     </v-data-table>
   </v-container>
@@ -59,15 +64,24 @@ export default {
     }
   },
   methods: {
-    fornmatDate(dateStr) {
+    formatDate(dateStr) {
       return moment(dateStr).fromNow();
     },
     getColor(dateStr) {
+      // Timestamp of last update in ms
       const ts = parseInt(moment(dateStr).format("x"));
+
+      // Current timestamp in ms
       const now = parseInt(moment().format("x"));
+
+      // difference between updated and now in days
       const diff = (now - ts) / (1000 * 60 * 60 * 24);
+
+      // Return hue of 120 (green) at diff = 0.
+      // Hue approches 0 (red) as diff approaches infinity
       const hue = 120 / (1 + diff / 100);
 
+      // Return color of chip in HSL format
       return `hsl(${hue}, 80%, 40%)`;
     },
     removeItem(itm) {
@@ -75,7 +89,4 @@ export default {
     }
   }
 };
-
-// repository_search_url: "https://api.github.com/search/repositories?q={query}{&page,per_page,sort,order}
-// user_search_url: "https://api.github.com/search/users?q={query}{&page,per_page,sort,order}
 </script>

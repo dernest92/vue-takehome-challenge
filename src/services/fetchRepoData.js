@@ -21,3 +21,5 @@ export default async function fetchRepoData(repoFullName) {
     commitLink: html_url
   };
 }
+
+// add error handling

@@ -1,10 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-const TableView = () =>
-  import(/* webpackChunkName: "table" */ "./views/DataTable.vue");
+const DataTableView = () =>
+  import(/* webpackChunkName: "data-table-view" */ "./views/DataTableView.vue");
 const ResultsView = () =>
-  import(/* webpackChunkName: "table" */ "./views/ResultsView.vue");
+  import(/* webpackChunkName: "results-view" */ "./views/ResultsView.vue");
 
 Vue.use(Router);
 
@@ -14,7 +14,7 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: TableView
+      component: DataTableView
     },
     {
       path: "/search",
