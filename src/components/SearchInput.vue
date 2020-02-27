@@ -23,7 +23,7 @@ export default {
       const { searchStr } = this;
       const fullPath = `/search?q=${encodeURI(searchStr)}&p=1`;
       this.searchStr = "";
-      if (this.$route.fullPath !== fullPath) return;
+      if (this.$route.fullPath === fullPath) return;
       this.$router.push(fullPath);
     }
   }
