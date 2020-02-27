@@ -42,11 +42,10 @@ export default {
   methods: {
     async search() {
       const { searchStr } = this;
-      if (this.$route.path !== "/search") {
-        this.$router.push("/search");
-      }
-      await this.$store.dispatch("fetchSearchResults", { searchStr, page: 1 });
+      const fullPath = `/search?q=${encodeURI(searchStr)}&p=1`;
       this.searchStr = "";
+      if (this.$route.fullPath === fullPath) return;
+      this.$router.push(fullPath);
     }
   }
 };

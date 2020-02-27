@@ -3,15 +3,19 @@
     <v-btn to="/" color="primary"
       ><v-icon left>mdi-arrow-left</v-icon>Back</v-btn
     >
-    <div v-if="searchString">
+    <div v-if="searchStr">
       <v-card class="mt-3" :loading="loading" :disabled="loading">
         <v-list three-line>
           <v-card-title
             >{{ loading ? "Loading" : formatNumber(count) }} results for "{{
-              searchString
+              searchStr
             }}"</v-card-title
           >
-          <SearchResult v-for="item in items" :key="item.title" :item="item" />
+          <SearchResult
+            v-for="result in results"
+            :key="result.title"
+            :item="result"
+          />
         </v-list>
       </v-card>
       <v-pagination
@@ -29,12 +33,15 @@ import SearchResult from "../components/SearchResult";
 export default {
   data() {
     return {
-      page: 1
+      loading: true
     };
   },
   watch: {
-    page(val) {
-      this.$store.dispatch("fetchSearchResults", { page: val });
+    page() {
+      this.loadResults();
+    },
+    searchStr() {
+      this.loadResults();
     }
   },
   components: {
@@ -43,14 +50,20 @@ export default {
   methods: {
     formatNumber(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+    async loadResults() {
+      const { page, searchStr } = this;
+      this.loading = true;
+      await this.$store.dispatch("fetchSearchResults", { searchStr, page });
+      this.loading = false;
     }
   },
+  async created() {
+    this.loadResults();
+  },
   computed: {
-    items() {
+    results() {
       return this.$store.state.searchResults;
-    },
-    searchString() {
-      return this.$store.state.queryString;
     },
     count() {
       return this.$store.state.searchCount;
@@ -59,8 +72,18 @@ export default {
       const perPage = this.$store.state.resultsPerPage;
       return Math.min(Math.ceil(this.count / perPage), 100); // returns a max of 100 pages;
     },
-    loading() {
-      return this.$store.state.loadingResults;
+    searchStr() {
+      return this.$route.query.q;
+    },
+    page: {
+      get() {
+        return parseInt(this.$route.query.p);
+      },
+      set(val) {
+        const query = { ...this.$route.query };
+        query.p = val;
+        this.$router.replace({ query });
+      }
     }
   }
 };

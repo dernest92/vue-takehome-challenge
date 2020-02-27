@@ -8,9 +8,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     searchCount: 0,
-    queryString: "",
-    loadingResults: false,
-    searchPage: 1,
     resultsPerPage: 8,
     repoList: [
       "vuejs/vue",
@@ -47,13 +44,8 @@ export default new Vuex.Store({
     },
 
     async fetchSearchResults({ commit, state }, { searchStr, page }) {
-      const queryString = searchStr ? searchStr : state.queryString;
-      const urlString = queryString.split(" ").join("+");
+      const urlString = searchStr.split(" ").join("+");
       const perPage = state.resultsPerPage;
-
-      commit("SET_LOADING", true);
-      commit("SET_QUERY_STRING", queryString);
-
       const { trimmedData, total_count } = await fetchSearchData(
         urlString,
         page,
@@ -62,15 +54,11 @@ export default new Vuex.Store({
 
       commit("SET_SEARCH_RESULTS", trimmedData);
       commit("SET_SEARCH_COUNT", total_count);
-      commit("SET_LOADING", false);
     }
   },
   mutations: {
     SET_REPO_DATA(state, data) {
       state.repoData = [...data];
-    },
-    SET_SEARCH_MODAL(state, val) {
-      state.showSearchModal = val;
     },
     SET_SEARCH_RESULTS(state, results) {
       state.searchResults = results;
@@ -78,14 +66,8 @@ export default new Vuex.Store({
     SET_SEARCH_COUNT(state, count) {
       state.searchCount = count;
     },
-    SET_QUERY_STRING(state, str) {
-      state.queryString = str;
-    },
     SET_REPO_LIST(state, list) {
       state.repoList = list;
-    },
-    SET_LOADING(state, val) {
-      state.loadingResults = val;
     }
   }
 });
