@@ -1,32 +1,45 @@
-# vue-takehome-challenge
+# GitHub Scraper
 
-## Project setup
+[Live Demo](https://vue-challenge.netlify.com/)
+
+## Challenge Outline
+
+Create a Vue app that authenticates with and uses data from the GitHub API.
+For at least five repositories display the following information in a table:
+
+- The name of the repo
+- The last time that it was updated
+- The hash of the last commit
+- The name and email of the person who made the last commit
+
+## Local setup
+
+### Install dependencies
 
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Create an .env.local file for local VUE_APP environment variables
+
+```
+VUE_APP_API_URL=http://127.0.0.1:9000
+```
+
+### Create a lambda.env file for local Lambda function environment variables
+
+```
+ACCESS_TOKEN=<Github API Access Token>
+```
+
+### Compiles and hot-reloads Vue App for development
 
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compiles and hot-reloads Lambda functions on localhost:9000
 
 ```
-npm run build
+npm run lambda-dev
 ```
-
-## Improvements
-
-- Write more in readme
-- Add error handling
-- Write unit tests
-- add tool tip for add/remove button on search page
-- name views better (and everything else)
-- make a diagram of the app
-- put readme page in the app
-- talk about OAuth, GitHub auth issues
-- show examples of scratch ui components in vue, (bistrobo front end, drawing app, react take home test)
-- clean up how api calls are made. Make better abstractions, reusable code.
