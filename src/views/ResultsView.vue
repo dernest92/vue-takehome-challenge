@@ -56,7 +56,8 @@ export default {
       return this.$store.state.searchCount;
     },
     numPages() {
-      return Math.min(Math.ceil(this.count / 10), 100); // returns a max of 100 pages;
+      const perPage = this.$store.state.resultsPerPage;
+      return Math.min(Math.ceil(this.count / perPage), 100); // returns a max of 100 pages;
     },
     loading() {
       return this.$store.state.loadingResults;

@@ -11,6 +11,7 @@ export default new Vuex.Store({
     queryString: "",
     loadingResults: false,
     searchPage: 1,
+    resultsPerPage: 8,
     repoList: [
       "vuejs/vue",
       "facebook/react",
@@ -48,13 +49,15 @@ export default new Vuex.Store({
     async fetchSearchResults({ commit, state }, { searchStr, page }) {
       const queryString = searchStr ? searchStr : state.queryString;
       const urlString = queryString.split(" ").join("+");
+      const perPage = state.resultsPerPage;
 
       commit("SET_LOADING", true);
       commit("SET_QUERY_STRING", queryString);
 
       const { trimmedData, total_count } = await fetchSearchData(
         urlString,
-        page
+        page,
+        perPage
       );
 
       commit("SET_SEARCH_RESULTS", trimmedData);
