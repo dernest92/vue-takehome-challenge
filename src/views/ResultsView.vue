@@ -19,6 +19,7 @@
         </v-list>
       </v-card>
       <v-pagination
+        v-if="numPages > 1"
         class="my-4"
         v-model="page"
         :length="numPages"
