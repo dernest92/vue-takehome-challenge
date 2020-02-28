@@ -1,9 +1,8 @@
 const axios = require("axios");
 
-exports.handler = async function(event, context, callback) {
+exports.handler = function(event, context, callback) {
   const BASE_URL = "https://api.github.com";
-
-  const { CLIENT_ID, CLIENT_SECRET, ACCESS_TOKEN } = process.env;
+  const { ACCESS_TOKEN } = process.env;
   const { repo } = event.queryStringParameters;
 
   const send = body => {
@@ -19,18 +18,14 @@ exports.handler = async function(event, context, callback) {
   };
 
   const apiCall = async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}/repos/${repo}/commits`, {
-        headers: {
-          Authorization: `Token ${ACCESS_TOKEN}`
-        }
-      });
-      const data = await res.data;
-      send(data);
-    } catch (err) {
-      send(err);
-    }
+    const res = await axios.get(`${BASE_URL}/repos/${repo}/commits`, {
+      headers: {
+        Authorization: `Token ${ACCESS_TOKEN}`
+      }
+    });
+    const data = await res.data;
+    send(data);
   };
 
-  await apiCall();
+  apiCall();
 };
